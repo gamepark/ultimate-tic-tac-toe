@@ -1,6 +1,6 @@
 import {css, Global} from '@emotion/react'
-import {MyBoardGameOptionsSpec} from '@gamepark/board-game-template/MyBoardGameOptions'
-import MyBoardGame from '@gamepark/board-game-template/MyBoardGame'
+import {UltimateTicTacToeOptionsSpec} from '@gamepark/ultimate-tic-tac-toe/UltimateTicTacToeOptions'
+import UltimateTicTacToeRules from '@gamepark/ultimate-tic-tac-toe/UltimateTicTacToeRules'
 import {GameProvider, setupTranslation} from '@gamepark/react-client'
 import normalize from 'emotion-normalize'
 import {StrictMode} from 'react'
@@ -59,7 +59,7 @@ const style = css`
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider game="my-board-game" Rules={MyBoardGame} optionsSpec={MyBoardGameOptionsSpec}>
+    <GameProvider game="my-board-game" Rules={UltimateTicTacToeRules} optionsSpec={UltimateTicTacToeOptionsSpec}>
       <App/>
     </GameProvider>
     <Global styles={[normalize, style]}/>

@@ -1,15 +1,15 @@
 import {Rules} from '@gamepark/rules-api'
 import Game from './Game'
 import Move from './moves/Move'
-import {isGameOptions, MyBoardGameOptions} from './MyBoardGameOptions'
-import Color from './Color'
+import {isGameOptions, UltimateTicTacToeOptions} from './UltimateTicTacToeOptions'
+import Mark from './Mark'
 
 
 /**
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
-export default class MyBoardGame extends Rules<Game, Move, Color> {
+export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
   /**
    * This constructor is called when the game "restarts" from a previously saved state.
    * @param state The state of the game
@@ -19,16 +19,15 @@ export default class MyBoardGame extends Rules<Game, Move, Color> {
    * This constructor is called when a new game is created. If your game has options, or a variable number of players, it will be provided here.
    * @param options The options of the new game
    */
-  constructor(options: MyBoardGameOptions)
+  constructor(options: UltimateTicTacToeOptions)
   /**
    * In here you must code the construction of your class. Use a "typeguard" to distinguish a new game from a restored game.
    * @param arg The state of the game, or the options when starting a new game
    */
-  constructor(arg: Game | MyBoardGameOptions) {
+  constructor(arg: Game | UltimateTicTacToeOptions) {
     if (isGameOptions(arg)) {
-      const newGame = {players: arg.players, round: 1} // complete with everything you need when a new game starts
+      const newGame = {board: []}
       super(newGame)
-      // You can also play moves here if it is convenient: this.play(shuffleCards) It will alter the initial game state, it won't be in the game moves history.
     } else {
       super(arg)
     }
@@ -43,7 +42,7 @@ export default class MyBoardGame extends Rules<Game, Move, Color> {
    * - isLegal(move: Move):boolean, for security; and
    * - A class that implements "Dummy" to provide a custom Dummy player.
    */
-  getLegalMoves(_playerId: Color): Move[] {
+  getLegalMoves(_playerId: Mark): Move[] {
     return []
   }
 
