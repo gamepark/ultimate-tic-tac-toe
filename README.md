@@ -108,7 +108,7 @@ One advice though: it is much easier to animate the elements if they all are a d
 ### 4. Display the initial state
 **Your game always has a state, and the React application always displays the game state.**
 
-Open (GameDisplay.tsx)[/app/src/GameDisplay.tsx] and write react components to display the game state the way you want.
+Open [GameDisplay.tsx](/app/src/GameDisplay.tsx) and write react components to display the game state the way you want.
 
 ## C. The moves
 
