@@ -54,13 +54,15 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
   getLegalMoves(playerId: Mark): MarkCell[] {
     if (playerId !== this.game.activePlayer) return []
     const moves: MarkCell[] = []
-    for (let y = 0; y < this.game.board.length; y++){
+    for (let y = 0; y < this.game.board.length; y++) {
+      if (this.game.constraint && this.game.constraint.y !== y) continue
       const row = this.game.board[y]
-      for (let x = 0; x < row.length; x++){
+      for (let x = 0; x < row.length; x++) {
+        if (this.game.constraint && this.game.constraint.x !== x) continue
         const grid = row[x]
-        for (let j = 0; j < grid.length; j++){
+        for (let j = 0; j < grid.length; j++) {
           const gridRow = grid[j]
-          for (let i = 0; i < gridRow.length; i++){
+          for (let i = 0; i < gridRow.length; i++) {
             const cell = gridRow[i]
             if (cell === null) {
               moves.push({x, y, i, j, mark: playerId})
@@ -85,6 +87,7 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
   play(move: MarkCell): never[] {
     this.game.board[move.y][move.x][move.j][move.i] = move.mark
     this.game.activePlayer = this.game.activePlayer === Mark.X ? Mark.O : Mark.X
+    this.game.constraint = {x: move.i, y: move.j}
     return []
   }
 }

@@ -6,6 +6,7 @@ import Mark from './Mark'
 type Game = {
   board: (Mark | null)[][][][]
   activePlayer: Mark
+  constraint?: {x: number, y: number}
 }
 
 export default Game
