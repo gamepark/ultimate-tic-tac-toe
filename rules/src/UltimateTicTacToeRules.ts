@@ -60,6 +60,7 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
       for (let x = 0; x < row.length; x++) {
         if (this.game.constraint && this.game.constraint.x !== x) continue
         const grid = row[x]
+        if (isGridOver(grid)) continue
         for (let j = 0; j < grid.length; j++) {
           const gridRow = grid[j]
           for (let i = 0; i < gridRow.length; i++) {
@@ -87,7 +88,39 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
   play(move: MarkCell): never[] {
     this.game.board[move.y][move.x][move.j][move.i] = move.mark
     this.game.activePlayer = this.game.activePlayer === Mark.X ? Mark.O : Mark.X
-    this.game.constraint = {x: move.i, y: move.j}
+    if (!isGridOver(this.game.board[move.j][move.i])) {
+      this.game.constraint = {x: move.i, y: move.j}
+    }
     return []
   }
+}
+
+export function isGridOver(grid: (Mark | null)[][]) {
+  const winner = getGridWinner(grid)
+  if (winner !== undefined) return true
+  return !grid.some(row => row.includes(null))
+}
+
+export function getGridWinner(grid: (Mark | null)[][]): Mark | undefined {
+  if (grid[1][1] !== null) {
+    if ((grid[0][1] === grid[1][1] && grid[2][1] === grid[1][1])
+      || (grid[1][0] === grid[1][1] && grid[1][2] === grid[1][1])
+      || (grid[0][0] === grid[1][1] && grid[2][2] === grid[1][1])
+      || (grid[0][2] === grid[1][1] && grid[2][0] === grid[1][1])) {
+      return grid[1][1]
+    }
+  }
+  if (grid[0][0] !== null) {
+    if ((grid[1][0] === grid[0][0] && grid[2][0] === grid[0][0])
+      || (grid[0][1] === grid[0][0] && grid[0][2] === grid[0][0])) {
+      return grid[0][0]
+    }
+  }
+  if (grid[2][2] !== null) {
+    if ((grid[0][2] === grid[2][2] && grid[1][2] === grid[2][2])
+      || (grid[2][0] === grid[2][2] && grid[2][1] === grid[2][2])) {
+      return grid[2][2]
+    }
+  }
+  return
 }
