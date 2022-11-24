@@ -5,6 +5,7 @@ import Mark from './Mark'
 
 type Game = {
   board: (Mark | null)[][][][]
+  activePlayer: Mark
 }
 
 export default Game

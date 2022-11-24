@@ -33,7 +33,8 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
               [...Array(3)].map(() => null)
             )
           )
-        )
+        ),
+        activePlayer: Mark.X
       }
       super(newGame)
     } else {
@@ -50,8 +51,19 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
    * - isLegal(move: Move):boolean, for security; and
    * - A class that implements "Dummy" to provide a custom Dummy player.
    */
-  getLegalMoves(_playerId: Mark): MarkCell[] {
-    return []
+  getLegalMoves(playerId: Mark): MarkCell[] {
+    if (playerId !== this.game.activePlayer) return []
+    return this.game.board.flatMap((row, y) =>
+      row.flatMap((grid, x) =>
+        grid.flatMap((gridRow, j) =>
+          gridRow.map((_, i) => ({x, y, i, j, mark: this.game.activePlayer}))
+        )
+      )
+    )
+  }
+
+  getActivePlayer(): Mark {
+    return this.game.activePlayer
   }
 
   /**
@@ -61,7 +73,8 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
    * @return Moves that must be automatically played as a consequences of the move.
    */
   play(move: MarkCell): never[] {
-    this.game.board[move.y][move.x][move.j][move.i] = Mark.X
+    this.game.board[move.y][move.x][move.j][move.i] = move.mark
+    this.game.activePlayer = this.game.activePlayer === Mark.X ? Mark.O : Mark.X
     return []
   }
 }
