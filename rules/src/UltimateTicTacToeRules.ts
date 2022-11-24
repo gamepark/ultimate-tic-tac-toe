@@ -50,31 +50,15 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    * This is the one and only play where you will update the game's state, depending on the move that has been played.
    *
    * @param move The move that should be applied to current state.
+   * @return Moves that must be automatically played as a consequences of the move.
    */
-  play(move: Move): void {
+  play(move: Move): Move[] {
     /*switch (move.type) {
       case MoveType.SpendGold:
         return spendGold(this.state, move)
       case MoveType.DrawCard:
         return drawCard(this.state, move)
     }*/
-    super.play(move)
-  }
-
-  /**
-   * Here you can return the moves that should be automatically played when the game is in a specific state.
-   * Here is an example from monopoly: you roll a dice, then move you pawn accordingly.
-   * A first solution would be to do both state updates at once, in a "complex move" (RollDiceAndMovePawn).
-   * However, this first solution won't allow you to animate step by step what happened: the roll, then the pawn movement.
-   * "getAutomaticMoves" is the solution to trigger multiple moves in a single action, and still allow for step by step animations.
-   * => in that case, "RollDice" could set "pawnMovement = x" somewhere in the game state. Then getAutomaticMove will return "MovePawn" when
-   * "pawnMovement" is defined in the state.
-   * Of course, you must return nothing once all the consequences triggered by a decision are completed.
-   * VERY IMPORTANT: you should never change the game state in here. Indeed, getAutomaticMove will never be called in replays, for example.
-   *
-   * @return The next automatic consequence that should be played in current game state.
-   */
-  getAutomaticMoves(): Move[] {
-    return super.getAutomaticMoves()
+    return super.play(move)
   }
 }
