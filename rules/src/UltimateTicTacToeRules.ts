@@ -79,6 +79,15 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
     return this.game.activePlayer
   }
 
+  isOver(): boolean {
+    return this.winner !== undefined || this.game.board.every(row => row.every(grid => grid.every(row => row.every(cell => cell !== null))))
+  }
+
+  get winner(): Mark | undefined {
+    const metaGrid = this.game.board.map(row => row.map(grid => getGridWinner(grid) ?? null))
+    return getGridWinner(metaGrid)
+  }
+
   /**
    * This is the one and only play where you will update the game's state, depending on the move that has been played.
    *
