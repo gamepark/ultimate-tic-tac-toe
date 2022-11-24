@@ -99,6 +99,8 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
     this.game.activePlayer = this.game.activePlayer === Mark.X ? Mark.O : Mark.X
     if (!isGridOver(this.game.board[move.j][move.i])) {
       this.game.constraint = {x: move.i, y: move.j}
+    } else {
+      delete this.game.constraint
     }
     return []
   }
