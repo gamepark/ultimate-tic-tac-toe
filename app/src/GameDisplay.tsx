@@ -4,17 +4,21 @@ import {Letterbox} from '@gamepark/react-components'
 import Game from '@gamepark/ultimate-tic-tac-toe/Game'
 import Grid from './Grid'
 import {cellSize} from './Cell'
+import {usePlay} from '@gamepark/react-client'
+import MarkCell from '@gamepark/ultimate-tic-tac-toe/MarkCell'
 
 type Props = {
   game: Game
 }
 
 export default function GameDisplay({game}: Props) {
+  const play = usePlay<MarkCell>()
   return (
     <Letterbox css={letterBoxStyle} top={0}>
       {game.board.map((row, rowIndex) =>
         row.map((grid, columnIndex) =>
-          <Grid key={`${rowIndex}_${columnIndex}`} css={gridPosition(rowIndex, columnIndex)} grid={grid}/>
+          <Grid key={`${rowIndex}_${columnIndex}`} css={gridPosition(rowIndex, columnIndex)} grid={grid}
+                onCellClick={(gridRow, gridColumn) => play({x: columnIndex, y: rowIndex, i: gridColumn, j: gridRow})}/>
         )
       )}
     </Letterbox>
