@@ -26,7 +26,9 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    */
   constructor(arg: Game | UltimateTicTacToeOptions) {
     if (isGameOptions(arg)) {
-      const newGame = {board: []}
+      const newGame: Game = {
+        board: Array(3).fill(Array(3).fill(Array(3).fill(null)))
+      }
       super(newGame)
     } else {
       super(arg)
