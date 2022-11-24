@@ -3,23 +3,20 @@ import {css, keyframes} from '@emotion/react'
 import {Letterbox} from '@gamepark/react-components'
 import Game from '@gamepark/ultimate-tic-tac-toe/Game'
 import Grid from './Grid'
-import Mark from '@gamepark/ultimate-tic-tac-toe/Mark'
+import {cellSize} from './Cell'
 
 type Props = {
   game: Game
 }
 
 export default function GameDisplay({game}: Props) {
-  console.log(game)
   return (
     <Letterbox css={letterBoxStyle} top={0}>
-      <Grid css={gridPosition } grid={[[
-        null, Mark.O, Mark.X
-      ], [
-        null, Mark.O, null
-      ], [
-        null, null, null
-      ]]}/>
+      {game.board.map((row, rowIndex) =>
+        row.map((grid, columnIndex) =>
+          <Grid key={`${rowIndex}_${columnIndex}`} css={gridPosition(rowIndex, columnIndex)} grid={grid}/>
+        )
+      )}
     </Letterbox>
   )
 }
@@ -37,8 +34,10 @@ const letterBoxStyle = css`
   animation: ${fadeIn} 3s ease-in forwards;
 `
 
-const gridPosition = css`
+const gridGap = 3
+
+const gridPosition = (rowIndex: number, columnIndex: number) => css`
   position: absolute;
-  top: 10em;
-  left: 10em;
+  top: ${10 + rowIndex * (cellSize * 3 + gridGap)}em;
+  left: ${10 + columnIndex * (cellSize * 3 + gridGap)}em;
 `
