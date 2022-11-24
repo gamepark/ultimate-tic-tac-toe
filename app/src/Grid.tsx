@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import Mark from '@gamepark/ultimate-tic-tac-toe/Mark'
-import Cell from './Cell'
+import Cell, {cellSize} from './Cell'
 import {css} from '@emotion/react'
 import {HTMLAttributes} from 'react'
+import {getGridWinner} from '@gamepark/ultimate-tic-tac-toe/UltimateTicTacToeRules'
 
 type Props = {
   grid: (Mark | null)[][]
@@ -10,6 +11,7 @@ type Props = {
 } & HTMLAttributes<HTMLDivElement>
 
 export default function Grid({grid, onCellClick, ...props}: Props) {
+  const winner = getGridWinner(grid)
   return (
     <div css={gridCss} {...props}>
       {grid.map((row, rowIndex) =>
@@ -17,6 +19,7 @@ export default function Grid({grid, onCellClick, ...props}: Props) {
           <Cell key={[rowIndex, columnIndex].join('-')} cell={cell} onClick={() => cell === null && onCellClick(rowIndex, columnIndex)}/>
         )
       )}
+      {winner && <span css={winnerMark}>{winner}</span>}
     </div>
   )
 }
@@ -27,4 +30,13 @@ const gridCss = css`
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 0.2em;
   background-color: darkgray;
+`
+
+const winnerMark = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: ${3 * cellSize}em;
 `
