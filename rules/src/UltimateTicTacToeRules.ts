@@ -53,13 +53,23 @@ export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> 
    */
   getLegalMoves(playerId: Mark): MarkCell[] {
     if (playerId !== this.game.activePlayer) return []
-    return this.game.board.flatMap((row, y) =>
-      row.flatMap((grid, x) =>
-        grid.flatMap((gridRow, j) =>
-          gridRow.map((_, i) => ({x, y, i, j, mark: this.game.activePlayer}))
-        )
-      )
-    )
+    const moves: MarkCell[] = []
+    for (let y = 0; y < this.game.board.length; y++){
+      const row = this.game.board[y]
+      for (let x = 0; x < row.length; x++){
+        const grid = row[x]
+        for (let j = 0; j < grid.length; j++){
+          const gridRow = grid[j]
+          for (let i = 0; i < gridRow.length; i++){
+            const cell = gridRow[i]
+            if (cell === null) {
+              moves.push({x, y, i, j, mark: playerId})
+            }
+          }
+        }
+      }
+    }
+    return moves
   }
 
   getActivePlayer(): Mark {

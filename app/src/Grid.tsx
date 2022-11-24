@@ -14,7 +14,7 @@ export default function Grid({grid, onCellClick, ...props}: Props) {
     <div css={gridCss} {...props}>
       {grid.map((row, rowIndex) =>
         row.map((cell, columnIndex) =>
-          <Cell key={[rowIndex, columnIndex].join('-')} cell={cell} onClick={() => onCellClick(rowIndex, columnIndex)}/>
+          <Cell key={[rowIndex, columnIndex].join('-')} cell={cell} onClick={() => cell === null && onCellClick(rowIndex, columnIndex)}/>
         )
       )}
     </div>
