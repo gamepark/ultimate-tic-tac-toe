@@ -24,17 +24,17 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    * In here you must code the construction of your class. Use a "typeguard" to distinguish a new game from a restored game.
    * @param arg The state of the game, or the options when starting a new game
    */
-  constructor(arg: Game | UltimateTicTacToeOptions) {
-    if (isGameOptions(arg)) {
-      const newGame: Game = {
-        board: [...Array(3)].map(() =>
-          [...Array(3)].map(() =>
-            [...Array(3)].map(() =>
-              [...Array(3)].map(() => null)
-            )
-          )
+  constructor(arg: Game | UltimateTicTacToeOptions, newParam: Game = {
+    board: [...Array(3)].map(() =>
+      [...Array(3)].map(() =>
+        [...Array(3)].map(() =>
+          [...Array(3)].map(() => null)
         )
-      }
+      )
+    )
+  }) {
+    if (isGameOptions(arg)) {
+      const newGame: Game = newParam
       super(newGame)
     } else {
       super(arg)

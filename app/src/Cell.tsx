@@ -16,7 +16,7 @@ export default function Cell({cell}: Props) {
   )
 }
 
-const cellSize = 10
+const cellSize = 9
 
 const cellCss = css`
   width: ${cellSize}em;
