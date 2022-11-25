@@ -3,18 +3,24 @@ import {css, keyframes} from '@emotion/react'
 import {Letterbox} from '@gamepark/react-components'
 import Game from '@gamepark/ultimate-tic-tac-toe/Game'
 import Grid from './Grid'
+import {usePlay, usePlayerId} from '@gamepark/react-client'
+import MarkCell from '@gamepark/ultimate-tic-tac-toe/MarkCell'
+import Mark from '@gamepark/ultimate-tic-tac-toe/Mark'
 
 type Props = {
   game: Game
 }
 
 export default function GameDisplay({game}: Props) {
+  const play = usePlay<MarkCell>()
+  const playerId = usePlayerId<Mark>()
   console.log(game)
   return (
     <Letterbox css={letterBoxStyle} top={0}>
       {game.board.map((gridRow, rowIndex) =>
         gridRow.map((grid, columnIndex) =>
-          <Grid key={`${rowIndex}-${columnIndex}`} css={gridPosition(rowIndex, columnIndex)} grid={grid}/>
+          <Grid key={`${rowIndex}-${columnIndex}`} css={gridPosition(rowIndex, columnIndex)} grid={grid}
+                onCellClick={(cellRowIndex, cellColumnIndex) => playerId && play({mark: playerId, i: cellColumnIndex, j: cellRowIndex, x: columnIndex, y: rowIndex})}/>
         )
       )}
     </Letterbox>

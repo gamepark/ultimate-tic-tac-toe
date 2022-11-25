@@ -1,15 +1,15 @@
 import {Rules} from '@gamepark/rules-api'
 import Game from './Game'
-import Move from './moves/Move'
 import {isGameOptions, UltimateTicTacToeOptions} from './UltimateTicTacToeOptions'
 import Mark from './Mark'
+import MarkCell from './MarkCell'
 
 
 /**
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
-export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
+export default class UltimateTicTacToeRules extends Rules<Game, MarkCell, Mark> {
   /**
    * This constructor is called when the game "restarts" from a previously saved state.
    * @param state The state of the game
@@ -24,17 +24,17 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    * In here you must code the construction of your class. Use a "typeguard" to distinguish a new game from a restored game.
    * @param arg The state of the game, or the options when starting a new game
    */
-  constructor(arg: Game | UltimateTicTacToeOptions, newParam: Game = {
-    board: [...Array(3)].map(() =>
-      [...Array(3)].map(() =>
-        [...Array(3)].map(() =>
-          [...Array(3)].map(() => null)
-        )
-      )
-    )
-  }) {
+  constructor(arg: Game | UltimateTicTacToeOptions) {
     if (isGameOptions(arg)) {
-      const newGame: Game = newParam
+      const newGame: Game = {
+        board: [...Array(3)].map(() =>
+          [...Array(3)].map(() =>
+            [...Array(3)].map(() =>
+              [...Array(3)].map(() => null)
+            )
+          )
+        )
+      }
       super(newGame)
     } else {
       super(arg)
@@ -50,7 +50,7 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    * - isLegal(move: Move):boolean, for security; and
    * - A class that implements "Dummy" to provide a custom Dummy player.
    */
-  getLegalMoves(_playerId: Mark): Move[] {
+  getLegalMoves(_playerId: Mark): MarkCell[] {
     return []
   }
 
@@ -60,13 +60,8 @@ export default class UltimateTicTacToeRules extends Rules<Game, Move, Mark> {
    * @param move The move that should be applied to current state.
    * @return Moves that must be automatically played as a consequences of the move.
    */
-  play(move: Move): Move[] {
-    /*switch (move.type) {
-      case MoveType.SpendGold:
-        return spendGold(this.state, move)
-      case MoveType.DrawCard:
-        return drawCard(this.state, move)
-    }*/
+  play(move: MarkCell): MarkCell[] {
+    this.game.board[move.y][move.x][move.j][move.i] = move.mark
     return super.play(move)
   }
 }
