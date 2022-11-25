@@ -113,6 +113,7 @@ export function isGridOver(grid: (Mark | null)[][]) {
 }
 
 export function getGridWinner(grid: (Mark | null)[][]): Mark | undefined {
+  if (grid.length !== 3 || grid.some(row => row.length !== 3)) throw new Error('A tic-tac-toe grid must be 3x3!')
   if (grid[1][1] !== null) {
     if ((grid[0][1] === grid[1][1] && grid[2][1] === grid[1][1])
       || (grid[1][0] === grid[1][1] && grid[1][2] === grid[1][1])
